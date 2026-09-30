@@ -1,4 +1,6 @@
+import { join } from "node:path";
 import { discoverSessions } from "./discover.js";
+import { createTranscriptReader } from "./transcripts.js";
 
 const MIN = 60_000;
 const ENDED_HOLD = 8000;
@@ -26,16 +28,17 @@ export function stateFromStatus(status, statusSince, now, idleAfterMs) {
 const spanTypeOf = (state) => (state === "working" ? "busy" : state === "waiting" ? "turn" : null);
 
 /**
- * @param {{ claudeDir: string, launchCwd?: string, idleAfterMs?: number, alive?: (pid: number) => boolean }} opts
+ * @param {{ claudeDir: string, launchCwd?: string, idleAfterMs?: number, alive?: (pid: number) => boolean, transcripts?: boolean }} opts
  */
 export function createLiveSource(opts) {
   const idleAfterMs = opts.idleAfterMs ?? 10 * MIN;
   /** @type {Map<string, { spans: Span[], state: SessionState, since: number, endedAt: number, base: Session }>} */
   const known = new Map();
+  const transcripts = opts.transcripts === false ? null : createTranscriptReader({ projectsDir: join(opts.claudeDir, "projects") });
 
   return {
     mode: "live",
-    reader: "discovery",
+    reader: transcripts ? "transcripts" : "discovery",
     launchCwd: opts.launchCwd || "",
     /** @param {number} now */
     read(now) {
@@ -93,7 +96,8 @@ export function createLiveSource(opts) {
         }
         sessions.push(k.base);
       }
-      return { sessions, flights: [] };
+      const flights = transcripts ? transcripts.enrich(sessions, now, idleAfterMs) : [];
+      return { sessions, flights };
     },
     stop() {},
   };

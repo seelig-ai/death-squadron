@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "es2023",
+    "rewriteRelativeImportExtensions": true,
+    "allowImportingTsExtensions": false,
+    "removeComments": true,
+    "declaration": false,
+    "strict": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "rootDir": ".vendor-src",
+    "outDir": "core/vendor/live-core"
+  },
+  "include": [".vendor-src/*.ts"]
+}

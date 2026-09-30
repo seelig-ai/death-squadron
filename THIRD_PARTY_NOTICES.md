@@ -6,7 +6,7 @@ death-squadron is MIT licensed (see LICENSE). It contains code ported from, and 
 
 ### azorkai/claude-code-office (MIT)
 
-The lane timeline (`web/src/lanes.js`) is a port of `public/js/akis.js`, and the span categories follow its event model in `server.js`.
+Source: https://github.com/azorkai/claude-code-office (commit 0e0cc0b). The lane timeline (`web/src/lanes.js`) is a port of `public/js/akis.js`. The transcript event model from `server.js` (ingest, tool categories and labels, subagent discovery) lives in the vendored reader, `core/vendor/live-core/categorize.js`, `ingest.js` and `subagents.js`.
 
 ```
 MIT License
@@ -34,7 +34,9 @@ SOFTWARE.
 
 ### Kostakurta8/roundtable (MIT)
 
-The transcript tailing approach (bounded reads per pass, shrink detection) follows `server/tail.ts`. The tailer itself arrives with the shared core reader.
+Source: https://github.com/Kostakurta8/roundtable (commit 242bc4e). The bounded incremental tailer from `server/tail.ts` (at most 1 MiB per pass, restart on a file that shrank) lives in `core/vendor/live-core/tail.js`.
+
+The files in `core/vendor/live-core/` are compiled from a TypeScript live-view core by the same author as this package. `core/vendor/live-core/SOURCE` names the commit they were built from, and `scripts/vendor-core.js` rebuilds them.
 
 ```
 MIT License

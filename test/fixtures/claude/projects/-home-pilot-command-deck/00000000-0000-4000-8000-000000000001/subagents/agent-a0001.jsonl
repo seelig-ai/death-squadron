@@ -1,0 +1,4 @@
+{"type":"user","timestamp":"2026-09-21T14:10:05.000Z","message":{"role":"user","content":"scout the dunes"}}
+{"type":"assistant","timestamp":"2026-09-21T14:12:30.000Z","message":{"id":"msg_a1","role":"assistant","stop_reason":"tool_use","content":[{"type":"tool_use","id":"toolu_a_read","name":"Read","input":{"file_path":"/home/pilot/command-deck/map.json"}}]}}
+{"type":"user","timestamp":"2026-09-21T14:12:31.000Z","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_a_read","content":"{}"}]}}
+{"type":"assistant","timestamp":"2026-09-21T14:14:59.000Z","message":{"id":"msg_a2","role":"assistant","stop_reason":"end_turn","content":[{"type":"text","text":"synthetic report"}]}}

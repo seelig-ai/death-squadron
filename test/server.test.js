@@ -85,7 +85,7 @@ test("live snapshot sends folder names, never the full working directory", async
   const srv = await startServer({ source: src, distDir: distDir(), port: 17811 });
   try {
     const snap = JSON.parse((await get(srv.port, "/snapshot")).body);
-    assert.equal(snap.reader, "discovery");
+    assert.equal(snap.reader, "transcripts");
     for (const s of snap.sessions) assert.equal(s.cwd, undefined);
     assert.ok(!JSON.stringify(snap).includes("/home/pilot"));
   } finally {
