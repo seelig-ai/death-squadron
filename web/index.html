@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Death Squadron</title>
+<link rel="icon" href="data:,">
+</head>
+<body data-skin="fleet">
+<main class="app">
+  <header class="mbar">
+    <h1><span class="crest" data-crest></span><span id="title">FLEET STATUS</span> <span class="aur" id="title-aur">fleet status</span></h1>
+    <p class="counts" id="counts" aria-live="polite">connecting</p>
+    <nav class="skins" aria-label="Skin">
+      <button type="button" data-skin="fleet" aria-pressed="true">Fleet</button>
+      <button type="button" data-skin="bridge" aria-pressed="false">Bridge</button>
+      <button type="button" data-skin="plain" aria-pressed="false">Plain</button>
+    </nav>
+  </header>
+  <section class="stage" id="stage" aria-label="Live scene">
+    <canvas id="scene" aria-hidden="true"></canvas>
+    <div class="overlay" id="overlay"></div>
+    <div class="empty" id="empty" hidden><span class="crest" data-crest></span><p class="aur">fleet offline</p><p>No Claude Code sessions are running.</p></div>
+    <p class="reserve" id="reserve" hidden></p>
+    <p class="linklost" id="linklost" hidden>Link lost, reconnecting</p>
+  </section>
+  <section class="hud" id="hud" aria-label="Sessions"></section>
+  <section class="lanesbox" aria-labelledby="lanes-title">
+    <h2 id="lanes-title"><span id="lanes-name">FLEET DEPLOYMENT</span> · LAST 60 MIN <span class="aur" id="lanes-aur">deployment</span></h2>
+    <div class="lanes-wrap"><canvas id="lanes" role="img" aria-label="Timeline of every session over the last 60 minutes"></canvas></div>
+    <ul class="legend" id="legend"></ul>
+  </section>
+  <footer class="foot">
+    <span id="mode"></span>
+    <span>Unofficial fan project. Not affiliated with Lucasfilm, Disney or Anthropic.</span>
+  </footer>
+</main>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
