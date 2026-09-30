@@ -1,0 +1,48 @@
+{
+  "name": "death-squadron",
+  "version": "0.1.0",
+  "description": "A Star Wars live view of your Claude Code sessions. Read-only, local-only, one command.",
+  "type": "module",
+  "bin": {
+    "death-squadron": "bin/death-squadron.js"
+  },
+  "files": [
+    "bin/",
+    "core/",
+    "dist/",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "start": "node bin/death-squadron.js",
+    "fixture": "node bin/death-squadron.js --fixture",
+    "test": "node --test test/",
+    "typecheck": "tsc --noEmit -p jsconfig.json",
+    "guard": "node scripts/guard.js",
+    "hooks": "git config core.hooksPath .githooks",
+    "prepack": "npm run build && node scripts/guard.js --dist"
+  },
+  "keywords": [
+    "claude-code",
+    "star-wars",
+    "live-view",
+    "three.js",
+    "dashboard"
+  ],
+  "license": "MIT",
+  "author": "Yannick Seelig",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yodaisgaming/death-squadron.git"
+  },
+  "devDependencies": {
+    "three": "0.186.1",
+    "vite": "8.3.1"
+  }
+}
