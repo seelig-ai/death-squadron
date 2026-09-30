@@ -1,0 +1,2 @@
+{"type":"user","sessionId":"00000000-0000-4000-8000-000000000001","timestamp":"2026-09-30T10:00:00.000Z","message":{"role":"user","content":"synthetic prompt"}}
+{"type":"assistant","sessionId":"00000000-0000-4000-8000-000000000001","timestamp":"2026-09-30T10:00:05.000Z","message":{"role":"assistant","content":[{"type":"tool_use","id":"toolu_synthetic_1","name":"Read","input":{"file_path":"/home/pilot/command-deck/README.md"}}]}}

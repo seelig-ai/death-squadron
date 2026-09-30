@@ -22,7 +22,7 @@
     "dev": "vite",
     "start": "node bin/death-squadron.js",
     "fixture": "node bin/death-squadron.js --fixture",
-    "test": "node --test test/",
+    "test": "node --test \"test/*.test.js\"",
     "typecheck": "tsc --noEmit -p jsconfig.json",
     "guard": "node scripts/guard.js",
     "hooks": "git config core.hooksPath .githooks",
@@ -42,7 +42,9 @@
     "url": "git+https://github.com/Yodaisgaming/death-squadron.git"
   },
   "devDependencies": {
+    "@types/node": "22.20.4",
     "three": "0.186.1",
+    "typescript": "7.0.2",
     "vite": "8.3.1"
   }
 }
