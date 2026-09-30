@@ -74,7 +74,7 @@ Controls: drag to orbit, wheel to zoom. In the fleet a click promotes and a doub
 ## Requirements
 
 - Node 22 or newer
-- A browser with WebGL (the plain skin works without it)
+- A browser with WebGL for the fleet and bridge skins (`--skin plain` never starts the 3D renderer)
 
 ## Credits
 
