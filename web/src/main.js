@@ -95,7 +95,7 @@ function render() {
   hud.draw();
   lanes.draw();
   const m = store.meta;
-  $("mode").textContent = m.mode === "fixture" ? "Synthetic fixture, no real sessions" : m.reader === "discovery" ? "Live · session files only · transcript lanes arrive with the core reader" : m.mode ? "Live" : "";
+  $("mode").textContent = m.mode === "fixture" ? "Synthetic fixture, no real sessions" : m.reader === "discovery" ? "Live · session files only" : m.mode ? "Live · read-only" : "";
 }
 
 let lastReader = "";

@@ -56,6 +56,7 @@ export function createTags(overlay) {
           if (!hit) break;
           bottom = hit.top - 2;
         }
+        bottom = Math.max(bottom, t.h + 4);
         placed.push({ x: t.x, w: t.w, top: bottom - t.h, bottom });
         t.el.style.transform = `translate(${t.x.toFixed(1)}px,${bottom.toFixed(1)}px) translate(-50%,-100%)`;
       }
