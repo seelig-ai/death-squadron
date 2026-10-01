@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createFixtureSource } from "../core/fixture.js";
 import { Fleet, pickFlagship } from "../core/state.js";
-import { parseArgs } from "../core/cli.js";
+import { parseArgs, openCommand } from "../core/cli.js";
 
 const T0 = 1790000000000;
 
@@ -64,4 +64,14 @@ test("cli flags parse and reject nonsense", () => {
   assert.throws(() => parseArgs(["--skin", "rebel"]));
   assert.throws(() => parseArgs(["--port", "x"]));
   assert.throws(() => parseArgs(["--hyperdrive"]));
+});
+
+test("the browser opener uses the absolute cmd.exe and escapes & on Windows", () => {
+  const url = "http://127.0.0.1:7777/?skin=fleet&flagship=fx-02";
+  const [cmd, args] = openCommand("win32", url, "D:\\WinNT");
+  assert.equal(cmd, "D:\\WinNT\\System32\\cmd.exe");
+  assert.deepEqual(args, ["/c", "start", "", "http://127.0.0.1:7777/?skin=fleet^&flagship=fx-02"]);
+  assert.equal(openCommand("win32", url)[0], "C:\\Windows\\System32\\cmd.exe");
+  assert.deepEqual(openCommand("darwin", url), ["open", [url]]);
+  assert.deepEqual(openCommand("linux", url), ["xdg-open", [url]]);
 });

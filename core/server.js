@@ -209,7 +209,7 @@ export async function startServer(opts) {
 
   return {
     port,
-    url: `http://localhost:${port}/`,
+    url: `http://127.0.0.1:${port}/`,
     server,
     clientCount: () => clients.size,
     ticking: () => timer !== null,

@@ -1,3 +1,4 @@
+import { win32 } from "node:path";
 import { DEFAULT_PORT } from "./server.js";
 
 export const SKINS = ["fleet", "bridge", "plain"];
@@ -17,6 +18,18 @@ Usage: npx death-squadron [options]
   -h, --help                   print this help
 
 Read-only and local-only: it reads session files Claude Code already writes, binds 127.0.0.1, and sends nothing anywhere.`;
+
+/**
+ * @param {string} platform
+ * @param {string} url
+ * @param {string} [systemRoot]
+ * @returns {[string, string[]]}
+ */
+export function openCommand(platform, url, systemRoot) {
+  if (platform === "win32") return [win32.join(systemRoot || "C:\\Windows", "System32", "cmd.exe"), ["/c", "start", "", url.replace(/&/g, "^&")]];
+  if (platform === "darwin") return ["open", [url]];
+  return ["xdg-open", [url]];
+}
 
 /**
  * @param {string[]} argv

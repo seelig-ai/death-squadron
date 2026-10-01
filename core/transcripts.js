@@ -88,7 +88,11 @@ export function createTranscriptReader(opts) {
     }
     for (const d of dirs) {
       const p = join(opts.projectsDir, d, `${id}.jsonl`);
-      if (existsSync(p) && statSync(p).isFile()) {
+      let isFile = false;
+      try {
+        isFile = statSync(p).isFile();
+      } catch {}
+      if (isFile) {
         found.set(id, p);
         missSince.delete(id);
         return p;

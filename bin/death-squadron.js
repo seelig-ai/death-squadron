@@ -5,15 +5,14 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { startServer } from "../core/server.js";
-import { parseArgs, HELP } from "../core/cli.js";
+import { parseArgs, openCommand, HELP } from "../core/cli.js";
 import { createLiveSource } from "../core/live.js";
 import { createFixtureSource } from "../core/fixture.js";
 
 const PKG_ROOT = fileURLToPath(new URL("..", import.meta.url));
 /** @param {string} url */
 function openBrowser(url) {
-  const [cmd, args] =
-    process.platform === "win32" ? ["cmd", ["/c", "start", "", url]] : process.platform === "darwin" ? ["open", [url]] : ["xdg-open", [url]];
+  const [cmd, args] = openCommand(process.platform, url, process.env.SystemRoot);
   try {
     const child = spawn(cmd, args, { stdio: "ignore", detached: true, windowsHide: true });
     child.on("error", () => {});
@@ -42,7 +41,14 @@ async function main() {
     ? createFixtureSource()
     : createLiveSource({ claudeDir, launchCwd: process.cwd(), idleAfterMs: o.idleAfter * 60_000 });
 
-  const srv = await startServer({ source, distDir, port: o.port, defaults: { skin: o.skin, flagship: o.flagship } });
+  let srv;
+  try {
+    srv = await startServer({ source, distDir, port: o.port, defaults: { skin: o.skin, flagship: o.flagship } });
+  } catch (err) {
+    const code = /** @type {NodeJS.ErrnoException} */ (err).code;
+    console.error(`death-squadron: could not start the local server (${code || /** @type {Error} */ (err).message}). Try another --port.`);
+    process.exit(1);
+  }
   const url = `${srv.url}?skin=${o.skin}${o.flagship ? `&flagship=${encodeURIComponent(o.flagship)}` : ""}`;
   console.log(`death-squadron ${o.fixture ? "(synthetic fixture)" : `reading ${claudeDir}`}`);
   console.log(`  ${url}`);

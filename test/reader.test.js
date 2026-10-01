@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { writeFileSync } from "node:fs";
 import { join, extname, basename } from "node:path";
 import { discoverSessions, folderOf } from "../core/discover.js";
 import { observeOpens, readJson, listFiles } from "../core/fsguard.js";
@@ -60,4 +61,14 @@ test("live frames carry the folder name and a dead pid ends the session", () => 
 test("folderOf keeps only the last path segment", () => {
   assert.equal(folderOf("/home/pilot/command-deck/"), "command-deck");
   assert.equal(folderOf("D:\\work\\launch-pad"), "launch-pad");
+});
+
+test("discovery skips a session id that could leave the projects folder", () => {
+  const dir = tempClaudeDir();
+  for (const [n, id] of [[41901, "../../../outside/x"], [41902, "a/b"], [41903, "c\\d"], [41904, ""]]) {
+    writeFileSync(join(dir, "sessions", `${n}.json`), JSON.stringify({ pid: n, sessionId: id, cwd: "/home/pilot/x" }));
+  }
+  const ids = discoverSessions(dir, { alive: () => true }).map((s) => s.id);
+  assert.equal(ids.length, 4);
+  for (const id of ids) assert.match(id, /^[A-Za-z0-9_-]+$/);
 });

@@ -52,3 +52,16 @@ Seen:
 
 Not verified: rendering on a real GPU, browser auto-open on macOS and Linux, and the looping GIF the spec lists for the README (left out).
 
+### Pre-publish release review (2026-10-01)
+
+A fresh-context review of the 0.1.0 tarball and repo before the first npm publish. Fixed:
+
+- Browser opener on Windows: `spawn("cmd")` resolved a bare name, so a `cmd.exe` planted in the launch folder ran first when the system does not set `NoDefaultCurrentDirectoryInExePath`. The `&` in a `--flagship` URL also split the cmd line and ran the tail as a command. The opener now uses `%SystemRoot%\System32\cmd.exe` and escapes `&` as `^&` (`openCommand` in `core/cli.js`, with a test).
+- Session ids from `sessions/*.json` are checked against `^[A-Za-z0-9_-]+$` before they go into a path, so a crafted id cannot point the reader outside `projects/` (test added).
+- A transcript deleted between the directory walk and `statSync` no longer throws inside the tick loop.
+- The printed and opened URL is `http://127.0.0.1:<port>/`, the address the server binds, so a browser trying `::1` first cannot land on another app.
+- A busy port range prints one line instead of a stack trace.
+- THIRD_PARTY_NOTICES carries the full SIL OFL 1.1 text for the bundled fonts and the full three.js MIT text, since the build strips three.js licence comments from `dist/`.
+
+Seen: 28 of 28 tests green, type check and guard clean, the new id test fails without the check, and `cmd.exe` receives the full URL with `&` intact.
+

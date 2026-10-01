@@ -15,6 +15,8 @@ import { listFiles, readJson } from "./fsguard.js";
  * @property {boolean} alive
  */
 
+export const SESSION_ID = /^[A-Za-z0-9_-]+$/;
+
 /** @param {number} pid */
 export function pidAlive(pid) {
   if (!Number.isInteger(pid) || pid <= 0) return false;
@@ -49,7 +51,7 @@ export function discoverSessions(claudeDir, opts = {}) {
     } catch {
       continue;
     }
-    if (!d || typeof d.sessionId !== "string") continue;
+    if (!d || typeof d.sessionId !== "string" || !SESSION_ID.test(d.sessionId)) continue;
     const cwd = typeof d.cwd === "string" ? d.cwd : "";
     out.push({
       id: d.sessionId,
