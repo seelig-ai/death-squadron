@@ -41,12 +41,14 @@ async function main() {
     ? createFixtureSource()
     : createLiveSource({ claudeDir, launchCwd: process.cwd(), idleAfterMs: o.idleAfter * 60_000 });
 
+  /** @type {Awaited<ReturnType<typeof startServer>>} */
   let srv;
   try {
     srv = await startServer({ source, distDir, port: o.port, defaults: { skin: o.skin, flagship: o.flagship } });
   } catch (err) {
     const code = /** @type {NodeJS.ErrnoException} */ (err).code;
-    console.error(`death-squadron: could not start the local server (${code || /** @type {Error} */ (err).message}). Try another --port.`);
+    if (code !== "EADDRINUSE" && code !== "EACCES") throw err;
+    console.error(`death-squadron: no free port from ${o.port} up (${code}). Try another --port.`);
     process.exit(1);
   }
   const url = `${srv.url}?skin=${o.skin}${o.flagship ? `&flagship=${encodeURIComponent(o.flagship)}` : ""}`;
