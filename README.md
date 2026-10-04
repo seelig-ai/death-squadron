@@ -106,6 +106,6 @@ npm pack --dry-run
 npm publish
 ```
 
-`prepack` builds `dist/` and runs the leak guard over it, so `npm pack` and `npm publish` always ship a fresh, checked bundle. The git hooks (`npm run hooks` once after cloning) run the same guard on every commit and the tests before every push.
+`prepack` builds `dist/` and runs the leak guard over it, so `npm pack` and `npm publish` always ship a fresh, checked bundle. The git hooks (`npm run hooks` once after cloning) run the same guard on every commit and the tests before every push. Personal identifiers are not in the repo: the guard reads them from `~/.claude/private/death-squadron-guard-terms.json` (or the path in `DEATH_SQUADRON_GUARD_TERMS`), shaped `{ "substring": [], "word": [], "regex": [{ "source": "", "flags": "i" }] }`. Without that file it skips those rules with a one-line note and still checks user paths, UUIDs and `dist/` URLs.
 
 To rebuild the vendored transcript reader from its TypeScript source: `node scripts/vendor-core.js <live-core dir> <commit>`.
