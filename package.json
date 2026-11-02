@@ -39,7 +39,7 @@
   "author": "Yannick Seelig",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Yodaisgaming/death-squadron.git"
+    "url": "git+https://github.com/seelig-ai/death-squadron.git"
   },
   "devDependencies": {
     "@types/node": "22.20.4",
